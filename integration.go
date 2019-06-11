@@ -47,7 +47,7 @@ type Client struct {
 	// Time is in MS
 	Timeout int
 
-	client *http.Client
+	Client *http.Client
 }
 
 // Endpoints is a collection of swagger endpoints
@@ -121,7 +121,7 @@ func BuildClient(path string) (*Client, error) {
 	sc.Port = port
 	sc.Timeout = timeout
 
-	sc.client = &http.Client{
+	sc.Client = &http.Client{
 		CheckRedirect: func(req *http.Request, via []*http.Request) error {
 			if sc.FollowRedirects {
 				return nil
@@ -339,7 +339,7 @@ func (sc *Client) buildURL(path string, query []string) string {
 func (sc *Client) MakeRequest(req *http.Request) ClientResponse {
 
 	start := time.Now()
-	res, err := sc.client.Do(req)
+	res, err := sc.Client.Do(req)
 	elapsed := time.Since(start)
 	if err != nil {
 		return ClientResponse{Error: fmt.Errorf("Request to URL %s failed with error: %s", req.URL, err.Error())}
